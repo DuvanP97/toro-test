@@ -14,7 +14,8 @@ router.post('/create', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        res.status(200).json({ User: "usuario toro" });
+        const users = await User.find();
+        res.send(users);
     } catch (err) {
         res.status(400).send(err);
     }
@@ -32,15 +33,10 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.patch('/update/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
-        if (!user) {
-            return res.status(404).send();
-        }
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.send(user);
         res.status(200).send(user);
     } catch (err) {
         res.status(400).send(err);
@@ -49,11 +45,8 @@ router.patch('/update/:id', async (req, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
-        if (!user) {
-            return res.status(404).send();
-        }
-        res.status(200).send({ message: 'Usuario eliminado' });
+        await User.findByIdAndDelete(req.params.id);
+        res.send({ message: 'Usuario eliminado' });
     } catch (err) {
         res.status(500).send(err);
     }
