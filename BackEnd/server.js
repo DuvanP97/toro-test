@@ -1,4 +1,3 @@
-// require('dotnev').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -11,7 +10,6 @@ app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 3000;
-// console.log(process.env.MONGO_URI)
 mongoose.connect('mongodb://localhost:27017/test-toro', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
